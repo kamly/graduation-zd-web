@@ -65,15 +65,15 @@ return [
         'qiniu' => [
             'driver' => 'qiniu',
             'domains' => [
-                'default' => 'p18t3pgej.bkt.clouddn.com', //你的七牛域名
-                'https' => 'https://images.charmingkamly.cn',         //你的HTTPS域名
-                'custom' => 'images.charmingkamly.cn',                //Useless 没啥用，请直接使用上面的 default 项
+                'default' => env('QINIU_DOMAINS_DEFAULT'), //你的七牛域名
+                'https' => env('QINIU_DOMAINS_HTTPS'),         //你的HTTPS域名
+                'custom' => env('QINIU_DOMAINS_CUSTOM'),      //没啥用，请直接使用上面的 default 项
             ],
-            'access_key' => 'd-XdHFsLmmKsav_Dn5Zs4IIXCCCV0gqLzaAwkajW',  //AccessKey
-            'secret_key' => '9KXaiM0MqNXg_bYiRKCX_8T4N9wjmAr1lU4BNldi',  //SecretKey
-            'bucket' => 'zdimages',  //Bucket名字
-            'notify_url' => '',  //持久化处理回调地址
-            'access' => 'public'  //空间访问控制 public 或 private
+            'access_key' => env('QINIU_ACCESS_KEY'),  //AccessKey
+            'secret_key' => env('QINIU_SECRET_KEY'),  //SecretKey
+            'bucket' => env('QINIU_BUCKET'),  //Bucket名字
+            'notify_url' => env('QINIU_NOTIFY_URL'),  //持久化处理回调地址
+            'access' => env('QINIU_ACCESS')  //空间访问控制 public 或 private
         ],
     ],
 ];

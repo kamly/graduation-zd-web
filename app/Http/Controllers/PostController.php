@@ -111,14 +111,16 @@ class PostController extends Controller
     {
 
         $disk = QiniuStorage::disk('qiniu');
-        $filename = $disk->put('posts',$request->file('wangEditorH5File'));
-        $img_url = urldecode($disk->downloadUrl($filename, 'custom')); //获取下载链接
+        $filename = $disk->put('post',$request->file('wangEditorH5File'));
+        $img_url = urldecode($disk->downloadUrl($filename, 'https')); //获取下载链接
 
         // 插入Image
         $image = new Image();
         $image->user_id = \Auth::id();
-        $image->type = 'posts';
-        $image->url = $img_url; // 可以直接访问的目录
+        $image->type = 'post';
+        $image->url = $img_url;
+        $image->status = '1';
+        $image->extra_info = '';
         $image->save();
 
         return $img_url;

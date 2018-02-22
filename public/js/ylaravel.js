@@ -8,34 +8,34 @@ $.ajaxSetup({
 
 // 上传图片
 // https://www.kancloud.cn/wangfupeng/wangeditor2/123689
-// var editor = new wangEditor('content');
-//
-// if (editor.config) {
-//     editor.config.uploadImgUrl = "/posts/image/upload" // 上传的链接
-//     editor.config.uploadHeaders = {
-//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//     };
-//     editor.config.hideLinkImg = true; // 禁止使用网络图片
-//     editor.config.printLog = false; // 禁止打印日志
-//
-//     // 自定义load事件
-//     editor.config.uploadImgFns.onload = function (resultText, xhr) {
-//
-//         resultText = decodeURI(resultText)
-//         // resultText 服务器端返回的text
-//         // xhr 是 xmlHttpRequest 对象，IE8、9中不支持
-//
-//         // 上传图片时，已经将图片的名字存在 editor.uploadImgOriginalName
-//         var originalName = editor.uploadImgOriginalName || '';
-//
-//         // 如果 resultText 是图片的url地址，可以这样插入图片：
-//         editor.command(null, 'insertHtml', '<img src="' + resultText + '" alt="' + originalName + '" style="max-width:100%;"/>');
-//         // 如果不想要 img 的 max-width 样式，也可以这样插入：
-//         // editor.command(null, 'InsertImage', resultText);
-//     };
-//
-//     editor.create();
-// }
+var editor = new wangEditor('content');
+
+if (editor.config) {
+    editor.config.uploadImgUrl = "/posts/image/upload" // 上传的链接
+    editor.config.uploadHeaders = {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    };
+    editor.config.hideLinkImg = true; // 禁止使用网络图片
+    editor.config.printLog = false; // 禁止打印日志
+
+    // 自定义load事件
+    editor.config.uploadImgFns.onload = function (resultText, xhr) {
+
+        resultText = decodeURI(resultText)
+        // resultText 服务器端返回的text
+        // xhr 是 xmlHttpRequest 对象，IE8、9中不支持
+
+        // 上传图片时，已经将图片的名字存在 editor.uploadImgOriginalName
+        var originalName = editor.uploadImgOriginalName || '';
+
+        // 如果 resultText 是图片的url地址，可以这样插入图片：
+        editor.command(null, 'insertHtml', '<img src="' + resultText + '" alt="' + originalName + '" style="max-width:100%;"/>');
+        // 如果不想要 img 的 max-width 样式，也可以这样插入：
+        // editor.command(null, 'InsertImage', resultText);
+    };
+
+    editor.create();
+}
 
 
 

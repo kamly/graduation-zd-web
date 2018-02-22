@@ -37,14 +37,16 @@ class UserController extends Controller
         if ($request->file('avatar')) {
 
             $disk = QiniuStorage::disk('qiniu');
-            $filename = $disk->put('users/headers', $request->file('avatar'));
-            $img_url = urldecode($disk->downloadUrl($filename)); //获取下载链接
+            $filename = $disk->put('header', $request->file('avatar'));
+            $img_url = urldecode($disk->downloadUrl($filename, 'https')); //获取下载链接
 
             // 插入Image
             $image = new Image();
             $image->user_id = \Auth::id();
-            $image->type = 'user/header';
+            $image->type = 'header';
             $image->url = $img_url;
+            $image->status = '1';
+            $image->extra_info = '';
             $image->save();
 
             $user->avatar = $img_url;
