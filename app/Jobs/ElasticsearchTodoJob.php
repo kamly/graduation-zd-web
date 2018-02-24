@@ -2,30 +2,28 @@
 
 namespace App\Jobs;
 
-use App\Models\Notice;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class SendNoticeMessage implements ShouldQueue
+
+class ElasticsearchTodoJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $notice;
-    protected $client = null;
+    public $jobData = [];
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Notice $notice)
+    public function __construct($jobData)
     {
         //
-        $this->notice = $notice;
+        $this->jobData = $jobData;
     }
 
     /**
@@ -35,10 +33,10 @@ class SendNoticeMessage implements ShouldQueue
      */
     public function handle()
     {
-        // 通知每个用户系统消息
-        $users = User::all();
-        foreach ($users as $user) {
-            $user->addNotice($this->notice);
-        }
+        $type = $this->jobData['type'];
+        $action = $this->jobData['action'];
+        $id = $this->jobData['id'];
+        (new ElasticsearchTodo)->index($type, $action, $id);
     }
+
 }

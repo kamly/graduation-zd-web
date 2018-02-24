@@ -177,12 +177,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-
-        // 搜索
-        Laravel\Scout\ScoutServiceProvider::class,
-        ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
-
-
         //七牛云
         zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class
     ],

@@ -21,7 +21,7 @@ class ESInit extends Command
      *
      * @var string
      */
-    protected $description = 'init elasticsearch a2c for post';
+    protected $description = 'init elasticsearch zd';
 
     /**
      * Create a new command instance.
@@ -41,10 +41,10 @@ class ESInit extends Command
     public function handle()
     {
         // 废用
-        $this->info('============= 开始创建posts类型 =============');
+        $this->info('============= 开始创建posts_comments类型 =============');
 
         $client = new Client();
-        $url = config('scout.elasticsearch.hosts')[0] . '/' . config('scout.elasticsearch.index');
+        $url = config('scout.elasticsearch.hosts')[0] . '/' . 'posts_comments_1';
         // 查看这个索引是不是存在，如果存在就删除
         try {
             $response = $client->get($url);
@@ -57,33 +57,46 @@ class ESInit extends Command
         $param = [
             'json' => [
                 'mappings' => [
-                    'posts' => [
+                    'post_comment' => [
                         '_source' => [
                             'enabled' => true
                         ],
                         'properties' => [
+                            'class_name' => [
+                                'type' => 'keyword',
+                            ],
+                            'post_id' => [
+                                'type' => 'keyword',
+                            ],
+                            'comment_id' => [
+                                'type' => 'keyword',
+                            ],
                             'title' => [
                                 'type' => 'text',
-                                'fields' => [
-                                    'keyword' => [
-                                        'type' => 'keyword'
-                                    ]
-                                ]
+                            ],
+                            'description' => [
+                                'type' => 'text',
                             ],
                             'content' => [
                                 'type' => 'text',
-                                'fields' => [
-                                    'keyword' => [
-                                        'type' => 'keyword'
-                                    ]
-                                ]
+                            ],
+                            'status' => [
+                                'type' => 'integer', // -1 违法 -2 删除 0 未审查 1 已审查
+                            ],
+                            'created_at' => [
+                                'type' => 'date',
+                                'format' => 'yyyy-MM-dd HH:mm:ss',
+                            ],
+                            'updated_at' => [
+                                'type' => 'date',
+                                'format' => 'yyyy-MM-dd HH:mm:ss',
                             ]
                         ]
                     ]
                 ]
             ]
         ];
-         $client->put($url, $param);
-        $this->info('============= 创建posts类型成功 =============');
+        $client->put($url, $param);
+        $this->info('============= 创建posts_comments类型成功 =============');
     }
 }
