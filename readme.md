@@ -1,51 +1,150 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# 毕设 PC 前后端
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## 生产环境
 
-## About Laravel
+- ubuntu 16.06 PHP 7.0.16 MYSQL 5.7 REDIS 4.0.0 
+- elasticsearch kibana filebeat logstash
+- supervisor composer
+- laravel 5.4.36
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+搭建lnmp环境[参考](https://github.com/kamly/automated-operation)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 介绍
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+1. 基于 laravel 5.4.36 构建前台和后台
+2. 模板渲染， 权限判断， 邮件发送
+3. 使用 redis消息队列， elasticsearch搜索引擎， des,aes加密方式
+4. 模型查询
+5. 自定义命令行
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+## 表结构
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+## 结构目录
 
-## Laravel Sponsors
+~~~
+.
+├── app
+│   ├── Admin
+│   │   └── Controllers
+│   ├── Console
+│   │   ├── Commands
+│   │   └── Kernel.php
+│   ├── Exceptions
+│   │   └── Handler.php
+│   ├── Helpers
+│   │   └── commons.php
+│   ├── Http
+│   │   ├── Controllers
+│   │   ├── Kernel.php
+│   │   └── Middleware
+│   ├── Jobs
+│   │   ├── ElasticsearchTodo.php
+│   │   ├── ElasticsearchTodoJob.php
+│   │   └── SendNoticeMessage.php
+│   ├── Models
+│   │   ├── AdminPermission.php
+│   │   ├── AdminRole.php
+│   │   ├── AdminUser.php
+│   │   ├── Base.php
+│   │   ├── Comment.php
+│   │   ├── Fan.php
+│   │   ├── Image.php
+│   │   ├── Notice.php
+│   │   ├── PasswordReset.php
+│   │   ├── Post.php
+│   │   ├── PostTopic.php
+│   │   ├── Topic.php
+│   │   ├── User.php
+│   │   └── Zan.php
+│   ├── Policies
+│   │   └── PostPolicy.php
+│   ├── Providers
+│   │   ├── AppServiceProvider.php
+│   │   ├── AuthServiceProvider.php
+│   │   ├── BroadcastServiceProvider.php
+│   │   ├── EventServiceProvider.php
+│   │   ├── HashEloquentUserProvider.php
+│   │   └── RouteServiceProvider.php
+│   └── libraries
+├── artisan
+├── bootstrap
+├── composer.json
+├── composer.lock
+├── config
+│   ├── app.php
+│   ├── auth.php
+│   ├── broadcasting.php
+│   ├── cache.php
+│   ├── database.php
+│   ├── filesystems.php
+│   ├── mail.php
+│   ├── myConfig.php
+│   ├── queue.php
+│   ├── services.php
+│   ├── session.php
+│   └── view.php
+├── database
+├── package.json
+├── phpunit.xml
+├── public
+│   ├── adminlte
+│   ├── css
+│   ├── favicon.ico
+│   ├── fonts
+│   ├── index.php
+│   ├── js
+│   ├── robots.txt
+│   └── web.config
+├── readme.md
+├── resources
+│   ├── assets
+│   │   ├── js
+│   │   └── sass
+│   ├── lang
+│   │   └── en
+│   └── views
+│       ├── admin
+│       ├── emails
+│       ├── forget
+│       ├── layout
+│       ├── login
+│       ├── notice
+│       ├── post
+│       ├── register
+│       ├── topic
+│       ├── user
+│       └── welcome.blade.php
+├── routes
+│   ├── admin.php
+│   ├── api.php
+│   ├── channels.php
+│   ├── console.php
+│   └── web.php
+├── server.php
+├── storage
+├── tests
+├── vendor
+└── webpack.mix.js
+~~~
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
+## 程序启动
 
-- **[Vehikl](http://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
+> 前提，配置lnmp环境，域名解析，ssl证书，composer
 
-## Contributing
+```shell
+cd /data/www
+git clone https://github.com/kamly/graduation-zd-app.git
+cd graduation-zd-app
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+vim .env
 
-## Security Vulnerabilities
+composer install
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+chown www:www -R storage
+chown www:www -R bootstrap/cache
 
-## License
+php artisan queue:work
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+curl https://xxxxxx/login
+```
