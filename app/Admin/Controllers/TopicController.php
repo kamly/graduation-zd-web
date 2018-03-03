@@ -118,15 +118,23 @@ class TopicController extends Controller
             $filename = $disk->put('header', $request->file('avatar'));
             $img_url = urldecode($disk->downloadUrl($filename, 'https')); //获取下载链接
 
-            // 插入Image
-            $image = new Image();
-            $image->user_id = \Auth::guard('admin')->id();
-            $image->type = 'topic';
-            $image->type_id = $topic->id;
-            $image->url = $img_url;
-            $image->status = '1';
-            $image->extra_info = '';
-            $image->save();
+            // 判断之前有没有图片
+            $image = (new Image)->where(['type' => 'topic', 'tpye_id' => $topic->id, 'status' => '1'])->first();
+            if ($image) {
+                $image->user_id = \Auth::guard('admin')->id();
+                $image->url = $img_url;
+                $image->save();
+            } else {
+                // 插入Image
+                $image = new Image();
+                $image->user_id = \Auth::guard('admin')->id();
+                $image->type = 'topic';
+                $image->type_id = $topic->id;
+                $image->url = $img_url;
+                $image->status = '1';
+                $image->extra_info = '';
+                $image->save();
+            }
         }
 
         return redirect('admin/topics')->with('status', '专题修改成功');
