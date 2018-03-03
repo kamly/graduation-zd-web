@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Image;
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Zan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Michelf\Markdown;
 use zgldh\QiniuStorage\QiniuStorage;
+use Elasticsearch\ClientBuilder;
+
 
 class PostController extends Controller
 {
@@ -111,7 +114,7 @@ class PostController extends Controller
     {
 
         $disk = QiniuStorage::disk('qiniu');
-        $filename = $disk->put('post',$request->file('wangEditorH5File'));
+        $filename = $disk->put('post', $request->file('wangEditorH5File'));
         $img_url = urldecode($disk->downloadUrl($filename, 'https')); //获取下载链接
 
         // 插入Image
@@ -175,8 +178,62 @@ class PostController extends Controller
         ]);
 
         $query = request('query');
-        $posts = Post::search($query)->paginate(10);
 
-        return view('post/search', compact('posts', 'query'));
+        // 查询
+        $es_search = [
+//            "from" => $page * $size,
+//            "size" => $size,
+            "index" => 'posts_comments',
+            "type" => 'post_comment',
+            "body" => [
+                "query" => [
+                    "bool" => [
+                        "must" => [
+                            [
+                                'terms' => [
+                                    'status' => [0, 1]
+                                ]
+                            ],
+                            [
+                                'multi_match' => [
+                                    'query' => $query,
+                                    'type' => 'phrase_prefix',
+                                    'fields' => [
+                                        'title', 'description', 'content'
+                                    ]
+                                ]
+                            ],
+                        ]
+                    ]
+                ],
+                'sort' => [
+                    'created_at' => [
+                        'order' => 'desc'
+                    ]
+                ]
+            ],
+        ];
+        $client = ClientBuilder::create()->build();
+        $es_result = $client->search($es_search);
+
+        $postComments = [];
+        foreach ($es_result['hits']['hits'] as $item) {
+            if ($item['_source']['class_name'] == 'post') {
+                $post = (new Post)->where(['id' => $item['_source']['post_id']])->first();
+                $user = (new User)->where(['id' => $post->user_id])->first()->toArray();
+                $item['_source']['user'] = $user;
+            } else {
+                $post = (new Post)->where(['id' => $item['_source']['post_id']])->first()->toArray();
+                $item['_source']['post'] = $post;
+                $comment = (new Comment)->where(['id' => $item['_source']['comment_id']])->first();
+                $user = (new User)->where(['id' => $comment->user_id])->first()->toArray();
+                $item['_source']['user'] = $user;
+            }
+            $postComments[] = $item['_source'];
+        }
+
+        $num = count($postComments);
+
+        return view('post/search', compact('postComments', 'query', 'num'));
     }
 }
