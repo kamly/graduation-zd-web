@@ -64,7 +64,7 @@ class ElasticsearchTodo
         if (!$payload) {
             return false;
         }
-        $params['index'] = 'posts_comments_1';
+        $params['index'] = 'posts_comments';
         $params['type'] = 'post_comment';
         $params['id'] = "{$type}_{$id}";
         $params['body'] = $payload;

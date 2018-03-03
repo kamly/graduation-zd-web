@@ -130,7 +130,7 @@
 
 ## 程序启动
 
-> 前提，配置lnmp环境，域名解析，ssl证书，composer
+> 前提，配置lnmp环境，elkf，域名解析，ssl证书，composer
 
 ```shell
 cd /data/www

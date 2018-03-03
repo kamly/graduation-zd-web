@@ -44,7 +44,7 @@ class ESInit extends Command
         $this->info('============= 开始创建posts_comments类型 =============');
 
         $client = new Client();
-        $url = config('scout.elasticsearch.hosts')[0] . '/' . 'posts_comments_1';
+        $url = config('scout.elasticsearch.hosts')[0] . '/' . 'posts_comments';
         // 查看这个索引是不是存在，如果存在就删除
         try {
             $response = $client->get($url);
