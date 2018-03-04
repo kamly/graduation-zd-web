@@ -19,11 +19,11 @@
                     @foreach($images as $image)
                         @if($loop->first)
                             <div class="item active">
-                                <img src="{{$image->url}}" alt="..." style="height: 300px;width: 300px"/>
+                                <img src="{{$image->url}}" alt="..." style="height: 300px;"/>
                             </div>
                         @else
                             <div class="item">
-                                <img src="{{$image->url}}" alt="..." style="height: 300px;width: 300px"/>
+                                <img src="{{$image->url}}" alt="..." style="height: 300px;"/>
                             </div>
                         @endif
                     @endforeach

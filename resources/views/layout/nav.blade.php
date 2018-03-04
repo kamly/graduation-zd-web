@@ -23,7 +23,7 @@
             <li class="dropdown">
                 <div>
                     <img src="{{ \Auth::user()->avatar }}"
-                         alt="" class="img-rounded" style="border-radius:100%; height: 40px">
+                         alt="" class="img-rounded" style="border-radius:100%; height: 40px;width: 40px;">
                     <a href="#" class="blog-nav-item dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-haspopup="true" aria-expanded="false">{{ \Auth::user()->name }}<span
                                 class="caret"></span></a>
