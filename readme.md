@@ -146,5 +146,7 @@ chown www:www -R bootstrap/cache
 
 php artisan queue:work
 
+php artisan SupperRoot:init
+
 curl https://xxxxxx/login
 ```
