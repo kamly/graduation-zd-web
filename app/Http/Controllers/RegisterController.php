@@ -40,7 +40,7 @@ class RegisterController extends Controller
         $name = request('name');
         $email = request('email');
         $password = sha1(config('myConfig.salt') . sha1(config('myConfig.salt') . request('password')));
-        $avatar = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515693832323&di=7b0e8fbfbe9927b56578c280bd8699ec&imgtype=0&src=http%3A%2F%2Fvpic.video.qq.com%2F49723171%2Fp03317cuvwp_ori_3.jpg'; // 默认头像
+        $avatar = 'https://images.charmingkamly.cn/system/default-header.png'; // 默认头像
         $note = '';
 
         $user = User::create(compact(['name', 'email', 'password', 'avatar', 'note']));
