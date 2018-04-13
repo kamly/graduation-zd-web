@@ -20,7 +20,7 @@ class PostController extends Controller
     public function index()
     {
         // 随机抽取5张图片
-        $images = Image::where(['type' => 'post'])->orderBy(DB::raw('RAND()'))->take(5)->get();
+        $images = Image::where(['type' => 'post', 'status' => '0'])->orderBy(DB::raw('RAND()'))->take(5)->get();
 
         $posts = Post::orderBy('created_at', 'desc')->withCount(['comments', 'zans'])->paginate(10);
         return view('post/index', compact('posts', 'images'));
