@@ -76,7 +76,7 @@ class PostController extends Controller
     {
         // 验证
         $this->validate(request(), [
-            'title' => 'required|string|max:100|min:5',
+            'title' => 'required|string|max:100|min:2',
             'content' => 'required|string|min:10'
         ], [
             'title.required' => '必须填写标题',
