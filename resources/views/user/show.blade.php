@@ -38,7 +38,7 @@
                 <div class="tab-pane" id="tab_2">
                     @foreach($susers as $user)
                         <div class="blog-post" style="margin-top: 30px">
-                            <p class="">{{$user->name}}</p>
+                            <p class=""><a href="/user/{{$user->id}}}">{{$user->name}}</a></p>
                             <p class="">关注：{{$user->stars_count}} | 粉丝：{{$user->fans_count}}｜
                                 文章：{{$user->posts_count}}</p>
 
@@ -52,7 +52,7 @@
                 <div class="tab-pane" id="tab_3">
                     @foreach($fusers as $user)
                         <div class="blog-post" style="margin-top: 30px">
-                            <p class="">{{$user->name}}</p>
+                            <p class=""><a href="/user/{{$user->id}}}">{{$user->name}}</a></p>
                             <p class="">关注：{{$user->stars_count}} | 粉丝：{{$user->fans_count}}｜
                                 文章：{{$user->posts_count}}</p>
 
